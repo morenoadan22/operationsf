@@ -9,6 +9,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from faker import Factory
 
+star_time = time.time()
+
 logger = logging.getLogger('missiontrump')
 
 hdlr = logging.FileHandler('votes.log')
@@ -46,8 +48,6 @@ elem = driver.find_element_by_name(phone_field)
 elem.clear()
 elem.send_keys(number)
 elem.send_keys(Keys.RETURN)
-
-logger.info("Email: " + email + ", Phone: " + number)
 
 # user info page
 nxt_btn = driver.find_element_by_xpath("//*[contains(text(), 'Next')]")
@@ -106,8 +106,11 @@ submit_btn = driver.find_element_by_css_selector(".survey-page-button.done-butto
 driver.execute_script("return arguments[0].scrollIntoView(0, document.documentElement.scrollHeight-10);", submit_btn)
 time.sleep(randint(1,3))
 submit_btn.click()
+elapsed_time = time.time() - star_time
 time.sleep(randint(1,3))
 
+
+logger.info("Email: " + email + ", Phone: " + number + " Time Spent: " + str(elapsed_time))
 
 driver.quit()
 
