@@ -2,6 +2,7 @@ import time
 import sys
 import re
 import logging
+import platform
 from random import randint
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -21,7 +22,8 @@ logger.setLevel(logging.INFO)
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("-incognito")
-driver = webdriver.Chrome(executable_path='/lib/python2.7/site-packages/selenium/webdriver/chrome/chromedriver', chrome_options=chrome_options)
+chromedriver_path = '/lib/python2.7/site-packages/selenium/webdriver/chrome/chromedriver' if platform.system() == 'Linux' else '/Library/Python/2.7/site-packages/selenium/webdriver/chrome/chromedriver'
+driver = webdriver.Chrome(executable_path=chromedriver_path, chrome_options=chrome_options)
 driver.get('http://www.surveymonkey.com/r/RN2LPQX')
 
 # create fake user email and number
