@@ -1,7 +1,6 @@
 #!/bin/bash
 
-cd ~/Documents/Programming/Python
-COUNTER=71
+COUNTER=20
 until [  $COUNTER -lt 1 ]; do
 	python vote_marianna.py
 	echo COUNTER $COUNTER

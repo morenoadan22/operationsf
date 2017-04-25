@@ -17,45 +17,39 @@ hdlr.setFormatter(formatter)
 logger.addHandler(hdlr)
 logger.setLevel(logging.INFO)
 
-lines = []
-with open('./proxy_servers.txt') as file:
-    lines = file.read().splitlines()
-
-PROXY = lines[randint(0, len(lines) - 1)] # IP:PORT or HOST:PORT
-
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("-incognito")
-# chrome_options.add_argument('--proxy-server=%s' % PROXY)
-driver = webdriver.Chrome(executable_path='/Library/Python/2.7/site-packages/selenium/webdriver/chrome/chromedriver', chrome_options=chrome_options)
-
+driver = webdriver.Chrome(executable_path='/lib/python2.7/site-packages/selenium/webdriver/chrome/chromedriver', chrome_options=chrome_options)
 driver.get('http://www.surveymonkey.com/r/RN2LPQX')
 
+# create fake user email and number
 fake = Factory.create('en_US')
-
-#input email and phone
-email_field = "106663941"
-phone_field = "106663942"
-
-elem = driver.find_element_by_name(email_field)
-elem.clear()
 email = fake.free_email()
-elem.send_keys(email)
-elem.send_keys(Keys.RETURN)
-
-elem = driver.find_element_by_name(phone_field)
-elem.clear()
 number = fake.phone_number()
 if number.find('x') != -1:
 	number = number[:number.index('x')]
 number = re.sub("[^0-9]", "", number)
 number = "760" + number[3:]
 number = (number[:10]) if len(number) > 10 else number
+
+
+# input email and phone
+email_field = "106663941"
+phone_field = "106663942"
+
+elem = driver.find_element_by_name(email_field)
+elem.clear()
+elem.send_keys(email)
+elem.send_keys(Keys.RETURN)
+
+elem = driver.find_element_by_name(phone_field)
+elem.clear()
 elem.send_keys(number)
 elem.send_keys(Keys.RETURN)
 
-logger.info("Email: " + email + ", Phone: " + number + " Proxy: " + PROXY)
+logger.info("Email: " + email + ", Phone: " + number)
 
-#user info page
+# user info page
 nxt_btn = driver.find_element_by_xpath("//*[contains(text(), 'Next')]")
 nxt_btn.click()
 
@@ -116,6 +110,4 @@ time.sleep(randint(1,3))
 
 
 driver.quit()
-	
-
 
