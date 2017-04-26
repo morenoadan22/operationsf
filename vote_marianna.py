@@ -3,6 +3,7 @@ import sys
 import re
 import logging
 import platform
+from unidecode import unidecode
 from random import randint
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -10,10 +11,14 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from faker import Factory
 
+survey_url = 'http://www.surveymonkey.com/r/5N57R5B'
+first_field = "107219913"
+last_field = "107219914"
+email_field = "107219915"
+phone_field = "107219916"
 
 def getChromedriverPath():
    return '/lib/python2.7/site-packages/selenium/webdriver/chrome/chromedriver' if platform.system() == 'Linux' else '/Library/Python/2.7/site-packages/selenium/webdriver/chrome/chromedriver'
-
 
 def findAndClickNext():
    nxt_btn = driver.find_element_by_xpath("//*[contains(text(), 'Next')]")
@@ -31,7 +36,7 @@ def generateFakeCredentials():
    name = fake.name().split()
    firstName = name[0] if "." not in name[0] else ''
    lastName = name[1]   
-   email = fake.free_email()
+   email = unidecode(fake.free_email())
    number = fake.phone_number()
    if number.find('x') != -1:
       number = number[:number.index('x')]
@@ -55,27 +60,24 @@ def setupChrome():
    chrome_options.add_argument("-incognito")
    driver = webdriver.Chrome(executable_path=getChromedriverPath(), chrome_options=chrome_options)   
 
+def fillInputWithName(fieldName, value):
+   elem = driver.find_element_by_name(fieldName)
+   elem.clear()
+   elem.send_keys(value)
+   elem.send_keys(Keys.RETURN)   
+
 
 def main():
    initLogger()
    setupChrome()
-   driver.get('http://www.surveymonkey.com/r/RN2LPQX')
+   driver.get(survey_url)
    star_time = time.time()
-   generateFakeCredentials()   
+   generateFakeCredentials() 
 
-   input email and phone
-   email_field = "106663941"
-   phone_field = "106663942"
-
-   elem = driver.find_element_by_name(email_field)
-   elem.clear()
-   elem.send_keys(email)
-   elem.send_keys(Keys.RETURN)
-
-   elem = driver.find_element_by_name(phone_field)
-   elem.clear()
-   elem.send_keys(phone_number)
-   elem.send_keys(Keys.RETURN)
+   fillInputWithName(first_field, firstName)
+   fillInputWithName(last_field, lastName)
+   fillInputWithName(email_field, email)
+   fillInputWithName(phone_field, phone_number)
 
    for x in range(0, 6):
       findAndClickNext()
@@ -99,9 +101,6 @@ def main():
    logger.info("Name:" + lastName + ", " + firstName +" Email: " + email + " Phone: " + phone_number + " Time Spent: " + str(elapsed_time))
    time.sleep(randint(1,3))
    driver.quit()
-
-
-
 
 if __name__ == '__main__':
     main()
