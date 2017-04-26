@@ -22,9 +22,15 @@ def findAndClickNext():
    nxt_btn.click()
 
 def generateFakeCredentials():
+   global firstName
+   global lastName
    global email
    global phone_number
-   fake = Factory.create('en_US')
+   countryCode = 'en_US' if randint(0, 2) < 1 else 'es_MX'
+   fake = Factory.create(countryCode)
+   name = fake.name().split()
+   firstName = name[0] if "." not in name[0] else ''
+   lastName = name[1]   
    email = fake.free_email()
    number = fake.phone_number()
    if number.find('x') != -1:
@@ -55,8 +61,9 @@ def main():
    setupChrome()
    driver.get('http://www.surveymonkey.com/r/RN2LPQX')
    star_time = time.time()
-   generateFakeCredentials()
-   # input email and phone
+   generateFakeCredentials()   
+
+   input email and phone
    email_field = "106663941"
    phone_field = "106663942"
 
@@ -89,7 +96,7 @@ def main():
    submit_btn.click()
 
    elapsed_time = time.time() - star_time
-   logger.info("Email: " + email + ", Phone: " + phone_number + " Time Spent: " + str(elapsed_time))
+   logger.info("Name:" + lastName + ", " + firstName +" Email: " + email + " Phone: " + phone_number + " Time Spent: " + str(elapsed_time))
    time.sleep(randint(1,3))
    driver.quit()
 
