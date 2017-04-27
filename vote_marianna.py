@@ -11,11 +11,11 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from faker import Factory
 
-survey_url = 'http://www.surveymonkey.com/r/5N57R5B'
-first_field = "107219913"
-last_field = "107219914"
-email_field = "107219915"
-phone_field = "107219916"
+survey_url = 'http://www.surveymonkey.com/r/WFMWNLT'
+first_field = "107768085"
+last_field = "107768086"
+email_field = "107768087"
+phone_field = "107768088"
 
 def getChromedriverPath():
    return '/lib/python2.7/site-packages/selenium/webdriver/chrome/chromedriver' if platform.system() == 'Linux' else '/Library/Python/2.7/site-packages/selenium/webdriver/chrome/chromedriver'
@@ -66,9 +66,7 @@ def fillInputWithName(fieldName, value):
    elem.send_keys(value)
    elem.send_keys(Keys.RETURN)   
 
-
-def main():
-   initLogger()
+def startVotingProcess():   
    setupChrome()
    driver.get(survey_url)
    star_time = time.time()
@@ -102,5 +100,10 @@ def main():
    time.sleep(randint(1,3))
    driver.quit()
 
+def main():
+   initLogger()   
+   for x in range(0, int(sys.argv[1])):
+      startVotingProcess()   
+   
 if __name__ == '__main__':
     main()
