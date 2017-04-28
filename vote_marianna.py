@@ -101,9 +101,11 @@ def startVotingProcess():
    driver.quit()
 
 def main():
-   initLogger()   
-   for x in range(0, int(sys.argv[1])):
-      startVotingProcess()   
-   
+   initLogger()      
+   for x in range(0, int(sys.argv[1])):      
+         startVotingProcess()
+      
+
+
 if __name__ == '__main__':
     main()
