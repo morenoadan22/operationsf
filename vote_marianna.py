@@ -11,11 +11,11 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from faker import Factory
 
-survey_url = 'http://www.surveymonkey.com/r/WFMWNLT'
-first_field = "107768085"
-last_field = "107768086"
-email_field = "107768087"
-phone_field = "107768088"
+survey_url = 'http://www.surveymonkey.com/r/BG3JM7R'
+first_field = "109336225"
+last_field = "109336226"
+email_field = "109336227"
+phone_field = "109336228"
 
 def getChromedriverPath():
    return '/lib/python2.7/site-packages/selenium/webdriver/chrome/chromedriver' if platform.system() == 'Linux' else '/Library/Python/2.7/site-packages/selenium/webdriver/chrome/chromedriver'
