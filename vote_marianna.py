@@ -88,7 +88,7 @@ def startVotingProcess():
    time.sleep(randint(1,3))
 
    for x in range(0, 2):
-         findAndClickNext()
+      findAndClickNext()
    
    submit_btn = driver.find_element_by_css_selector(".survey-page-button.done-button")
    driver.execute_script("return arguments[0].scrollIntoView(0, document.documentElement.scrollHeight-10);", submit_btn)
@@ -105,7 +105,6 @@ def main():
    for x in range(0, int(sys.argv[1])):      
          startVotingProcess()
       
-
 
 if __name__ == '__main__':
     main()
